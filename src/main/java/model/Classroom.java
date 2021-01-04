@@ -13,6 +13,10 @@ public class Classroom {
     public Classroom() {
     }
 
+    public Classroom(String className) {
+        this.name = className;
+    }
+
     public int getId() {
         return id;
     }

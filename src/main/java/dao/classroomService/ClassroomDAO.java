@@ -17,13 +17,15 @@ public class ClassroomDAO implements IClassroomDAO {
     private final String DELETE_CLASSROOM = "delete from classroom where id = ?;";
     private final String UPDATE_CLASSROOM = "update classroom set id=?,name=?,centerId=?,courseId=?,userId=?,recentModuleId=?,startDate=?,endDate=?;";
 
+    List<Classroom> classrooms = new ArrayList<>();
+
     public ClassroomDAO() {
     }
 
     @Override
     public void insertClassroom(Classroom classroom) throws SQLException {
-        ConnectDB connectDB = ConnectDB.getInstance();
-        Connection connection = connectDB.getConnection();
+        Connection connection = ConnectDB.getInstance().getConnection();
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CLASSROOM)) {
             preparedStatement.setInt(1, classroom.getId());
             preparedStatement.setString(2, classroom.getName());
@@ -42,8 +44,8 @@ public class ClassroomDAO implements IClassroomDAO {
     @Override
     public Classroom selectClassroom(int id) {
         Classroom classroom = null;
-        ConnectDB connectDB = ConnectDB.getInstance();
-        Connection connection = connectDB.getConnection();
+        Connection connection = ConnectDB.getInstance().getConnection();
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CLASSROOM_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -65,9 +67,8 @@ public class ClassroomDAO implements IClassroomDAO {
 
     @Override
     public List<Classroom> selectAllClassrooms() {
-        List<Classroom> classrooms = new ArrayList<>();
-        ConnectDB connectDB = ConnectDB.getInstance();
-        Connection connection = connectDB.getConnection();
+        Connection connection = ConnectDB.getInstance().getConnection();
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLASSROOM)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -90,8 +91,8 @@ public class ClassroomDAO implements IClassroomDAO {
     @Override
     public boolean deleteClassroom(int id) throws SQLException {
         boolean rowDelete;
-        ConnectDB connectDB = ConnectDB.getInstance();
-        Connection connection = connectDB.getConnection();
+        Connection connection = ConnectDB.getInstance().getConnection();
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLASSROOM)) {
             preparedStatement.setInt(1, id);
             rowDelete = preparedStatement.executeUpdate() > 0;
@@ -103,16 +104,16 @@ public class ClassroomDAO implements IClassroomDAO {
     @Override
     public boolean updateClassroom(Classroom classroom) throws SQLException {
         boolean rowUpdate;
-        ConnectDB connectDB = ConnectDB.getInstance();
-        Connection connection = connectDB.getConnection();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLASSROOM)){
-            preparedStatement.setString(1,classroom.getName());
-            preparedStatement.setInt(2,classroom.getCenterId());
-            preparedStatement.setInt(3,classroom.getCourseId());
-            preparedStatement.setInt(4,classroom.getUserId());
-            preparedStatement.setInt(5,classroom.getRecentModuleId());
-            preparedStatement.setString(6,classroom.getStartDate());
-            preparedStatement.setString(7,classroom.getEndDate());
+        Connection connection = ConnectDB.getInstance().getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLASSROOM)) {
+            preparedStatement.setString(1, classroom.getName());
+            preparedStatement.setInt(2, classroom.getCenterId());
+            preparedStatement.setInt(3, classroom.getCourseId());
+            preparedStatement.setInt(4, classroom.getUserId());
+            preparedStatement.setInt(5, classroom.getRecentModuleId());
+            preparedStatement.setString(6, classroom.getStartDate());
+            preparedStatement.setString(7, classroom.getEndDate());
             rowUpdate = preparedStatement.executeUpdate() > 0;
         }
         return rowUpdate;
