@@ -17,11 +17,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "ClassroomServlet")
+@WebServlet(name = "ClassroomServlet",urlPatterns = "/classroom")
 public class ClassroomServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null){
+        if (action == null) {
             action = "";
         }
         switch (action) {
@@ -31,12 +31,15 @@ public class ClassroomServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                break;
+            default:
+                listClassRoom(request,response);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null){
+        if (action == null) {
             action = "";
         }
         switch (action) {
@@ -53,13 +56,15 @@ public class ClassroomServlet extends HttpServlet {
             case "showStudentInClass":
                 showStudentInClass(request, response);
             default:
+                showAllStudent(request,response);
+                break;
         }
     }
 
     private void insertClassroom(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        String className = request.getParameter("className");
+        String name = request.getParameter("name");
         IClassroomDAO classroomDAO = new ClassroomDAO();
-        Classroom classroom = new Classroom(className);
+        Classroom classroom = new Classroom(name);
         classroomDAO.insertClassroom(classroom);
         RequestDispatcher dispatcher = request.getRequestDispatcher("");
         dispatcher.forward(request, response);
@@ -85,7 +90,7 @@ public class ClassroomServlet extends HttpServlet {
         IStudentDAO studentDAO = new StudentDAO();
         List<Student> students = studentDAO.selectAllStudents();
         request.setAttribute("students", students);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/user/insertStudent.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -94,7 +99,20 @@ public class ClassroomServlet extends HttpServlet {
         int classroomId = Integer.parseInt(request.getParameter("id"));
         List<Student> students = studentDAO.selectStudentInClass(classroomId);
         request.setAttribute("students", students);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/user/insertStudent.jsp");
         requestDispatcher.forward(request, response);
+    }
+
+    private void listClassRoom(HttpServletRequest request, HttpServletResponse response) {
+        IClassroomDAO classroomDAO = new ClassroomDAO();
+        List<Classroom> classrooms = classroomDAO.selectAllClassrooms();
+        request.setAttribute("classrooms", classrooms);
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/user/insertStudent.jsp");
+        try {
+            requestDispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }

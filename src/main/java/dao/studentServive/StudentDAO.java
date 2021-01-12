@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO implements IStudentDAO {
-    private final String INSERT_STUDENT = "INSERT INTO student " + " (id,firstname,lastname,email,phoneNumber,classroomId) values " + " (?,?,?,?,?,?);";
+    private final String INSERT_STUDENT = "INSERT INTO student " + " (firstname,lastname,email,phoneNumber,classroomId) values " + " (?,?,?,?,?);";
     private final String SELECT_STUDENT_BY_ID = "select id,firstname,lastname,courseId,email,phoneNumber,classroomId from student where id =?;";
     private final String SELECT_ALL_STUDENT = "select * from student;";
     private final String DELETE_STUDENT = "delete from student where id = ?;";
-    private final String UPDATE_STUDENT = "update student set id=?,firstname=?,lastname=?,courseId=?,email=?,phoneNumber=?,classroomId=?;";
+    private final String UPDATE_STUDENT = "update student set firstname=?,lastname=?,courseId=?,email=?,phoneNumber=?,classroomId=?;";
 
     List<Student> students = new ArrayList<>();
 
@@ -23,20 +23,20 @@ public class StudentDAO implements IStudentDAO {
     }
 
     @Override
-    public void insertStudent(Student student) throws SQLException {
+    public boolean insertStudent(Student student) throws SQLException {
         Connection connection = ConnectDB.getInstance().getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_STUDENT)) {
-            preparedStatement.setInt(1, student.getId());
-            preparedStatement.setString(2, student.getFirstname());
-            preparedStatement.setString(3, student.getLastname());
-            preparedStatement.setString(4, student.getEmail());
-            preparedStatement.setString(5, student.getPhoneNumber());
-            preparedStatement.setInt(6, student.getClassroomId());
+            preparedStatement.setString(1, student.getFirstname());
+            preparedStatement.setString(2, student.getLastname());
+            preparedStatement.setString(3, student.getEmail());
+            preparedStatement.setString(4, student.getPhoneNumber());
+            preparedStatement.setInt(5, student.getClassroomId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
@@ -75,6 +75,7 @@ public class StudentDAO implements IStudentDAO {
                 String phoneNumber = resultSet.getString("phoneNumber");
                 int classroomId = resultSet.getInt("classroomId");
                 students.add(new Student(id, firstname, lastname, email, phoneNumber, classroomId));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -8,7 +8,7 @@ public class ConnectDB {
     private static ConnectDB instance;
     private final String JDBC_URL = "jdbc:mysql://localhost:3306/caseStudy3?useSSL=false";
     private final String JDBC_USERNAME = "root";
-    private final String JDBC_PASSWORD = "11111";
+    private final String JDBC_PASSWORD = "hoang.ken@codegym.vn";
 
     private ConnectDB() {
     }

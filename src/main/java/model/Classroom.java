@@ -91,4 +91,14 @@ public class Classroom {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public Classroom(String name, int centerId, int courseId, int userId, int recentModuleId, String startDate, String endDate) {
+        this.name = name;
+        this.centerId = centerId;
+        this.courseId = courseId;
+        this.userId = userId;
+        this.recentModuleId = recentModuleId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IClassroomDAO {
-    public void insertClassroom(Classroom classroom) throws SQLException;
+    public boolean insertClassroom(Classroom classroom) throws SQLException;
     public Classroom selectClassroom(int id);
     public List<Classroom> selectAllClassrooms();
     public boolean deleteClassroom(int id) throws SQLException;

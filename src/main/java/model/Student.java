@@ -11,6 +11,9 @@ public class Student {
     public Student() {
     }
 
+    public Student(String firstname, String lastname, String email, String phoneNumber, int classroomId) {
+    }
+
     public int getId() {
         return id;
     }

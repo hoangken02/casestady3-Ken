@@ -4,11 +4,17 @@ public class User {
     private int id;
     private String firstName;
     private String lastName;
-    private String account;
+    private String userName;
     private String password;
     private String email;
     private String phoneNumber;
     private int centerId;
+
+    public User(String firstName, String lastName, String useName, String password, String email, String password1, String phoneNumber, int centerId) {
+    }
+
+    public User(String firstname, String lastname, String username, String password, String email, String phoneNumber, int centerId) {
+    }
 
     public int getId() {
         return id;
@@ -34,12 +40,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -78,7 +84,7 @@ public class User {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.account = account;
+        this.userName = account;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;

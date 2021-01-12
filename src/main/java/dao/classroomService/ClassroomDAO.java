@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassroomDAO implements IClassroomDAO {
-    private final String INSERT_CLASSROOM = "INSERT INTO classroom " + " (id,name,centerId,courseId,userId,recentModuleId,startDate,endDate) values " + " (?,?,?,?,?,?,?,?);";
+    private final String INSERT_CLASSROOM = "INSERT INTO classroom " + " (name,centerId,courseId,userId,recentModuleId,startDate,endDate) values " + " (?,?,?,?,?,?,?);";
     private final String SELECT_CLASSROOM_BY_ID = "select id,name,centerId,courseId,userId,recentModuleId,startDate,endDate from classroom where id =?;";
     private final String SELECT_ALL_CLASSROOM = "select * from classroom;";
     private final String DELETE_CLASSROOM = "delete from classroom where id = ?;";
-    private final String UPDATE_CLASSROOM = "update classroom set id=?,name=?,centerId=?,courseId=?,userId=?,recentModuleId=?,startDate=?,endDate=?;";
+    private final String UPDATE_CLASSROOM = "update classroom set name=?,centerId=?,courseId=?,userId=?,recentModuleId=?,startDate=?,endDate=?;";
 
     List<Classroom> classrooms = new ArrayList<>();
 
@@ -23,22 +23,22 @@ public class ClassroomDAO implements IClassroomDAO {
     }
 
     @Override
-    public void insertClassroom(Classroom classroom) throws SQLException {
+    public boolean insertClassroom(Classroom classroom) throws SQLException {
         Connection connection = ConnectDB.getInstance().getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CLASSROOM)) {
-            preparedStatement.setInt(1, classroom.getId());
-            preparedStatement.setString(2, classroom.getName());
-            preparedStatement.setInt(3, classroom.getCenterId());
-            preparedStatement.setInt(4, classroom.getCourseId());
-            preparedStatement.setInt(5, classroom.getUserId());
-            preparedStatement.setInt(6, classroom.getRecentModuleId());
-            preparedStatement.setString(7, classroom.getStartDate());
-            preparedStatement.setString(8, classroom.getEndDate());
+            preparedStatement.setString(1, classroom.getName());
+            preparedStatement.setInt(2, classroom.getCenterId());
+            preparedStatement.setInt(3, classroom.getCourseId());
+            preparedStatement.setInt(4, classroom.getUserId());
+            preparedStatement.setInt(5, classroom.getRecentModuleId());
+            preparedStatement.setString(6, classroom.getStartDate());
+            preparedStatement.setString(7, classroom.getEndDate());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
